@@ -32,6 +32,8 @@ def project_data(X, eigenvectors, num_components=2):
     Projects data onto the top principal components.
     """
     top_eigenvectors = eigenvectors[:, :num_components]
+
+    # projecting data to new coordinate system
     return X @ top_eigenvectors
 
 def perform_pca(X, num_components=2):
@@ -75,17 +77,23 @@ def print_scree_plot(eigenvalues):
     """
     sum_eigenvalues = np.sum(eigenvalues)
     percentage_variance = [(val / sum_eigenvalues) * 100 for val in eigenvalues]
-    print("\nScreenplot of given data:")
+    print("\nScree plot of given data:")
     for i in range(len(eigenvalues)):
         print(f"Principal Component {i+1}: Eigenvalue = {eigenvalues[i]:.4f}, Variance Explained = {percentage_variance[i]:.2f}%")
 
 def plot_scree(eigenvalues):
+    """
+    Plot the scree plot of eigenvalues in the form of a bar graph.
+    """
     plt.figure()
-    plt.plot(range(1, len(eigenvalues)+1), eigenvalues, marker='o')
     plt.xlabel("Principal Component")
     plt.ylabel("Eigenvalue")
     plt.title("Scree Plot")
-    plt.grid(True)
+
+    # Calculating percentage of variance explained for each principal component
+    eigenvalue_percentage = [(val / np.sum(eigenvalues)) * 100 for val in eigenvalues]
+
+    plt.bar(['PC1', 'PC2', 'PC3', 'PC4'], eigenvalue_percentage, align = 'center', color = 'skyblue')
     plt.show()
 
 
